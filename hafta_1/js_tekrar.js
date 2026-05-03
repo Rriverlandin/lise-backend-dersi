@@ -82,6 +82,29 @@ const carp = (x, y) => {
 
 console.log("carp:", carp(5, 6))
 
+//Class OOP
+
+class Kullanici{
+
+    constructor(kullanci_adi,sifre){
+        this.kullanci_adi=kullanci_adi
+        this.sifre=sifre
+    }
+    bilgiyazdir(){
+        console.log("Kullanıcı adı: ",this.kullanci_adi,
+            "şifre: ",this.sifre
+        )
+    }
+    static bilgi(){
+        console.log("This olmadan.")
+    }
+
+}
+const kullanci_1= new Kullanici("Ahmet ","ahmet1234!");
+kullanci_1.bilgiyazdir()
+
+ Kullanici.bilgi
+
 
 
 
