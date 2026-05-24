@@ -1,96 +1,54 @@
-import { Ogrenci } from "../types/ogrenci.types";   
+import {Ogrenci} from '../types/ogrenci.types';
 
-export const ogrenciler: Ogrenci[]= [
+export const ogrenciler: Ogrenci[] = [
     {
-        id:"001",
-        ad:"Ahmet",
-        soyad:"Yılmaz",
+        id:'001',
+        ad:'Ahmet',
+        soyad:"Savaş",
         yas:17,
         sinif:"11-D",
         okul:"ÇOK Okulu",
-        notOrtalaması:75.5,
-        olusturulmaTarihi: new Date("2026-05-03")
-        
+        notOrtalamasi:75.5,
+        olusturma_tarihi: new Date('2026,05-03'),
     },
     {
-
-        id:"002",
-
-        ad:"Elif",
-
-        soyad:"Demir",
-
-        yas:16,
-
-        sinif:"10-A",
-
-        okul:"Bursa Anadolu Lisesi",
-
-        notOrtalaması:88.2,
-
-        olusturulmaTarihi: new Date("2026-05-03")
-
-    },
-
-    {
-
-        id:"003",
-
-        ad:"Mert",
-
+        id:'002',
+        ad:'Elif',
         soyad:"Kaya",
-
-        yas:17,
-
-        sinif:"11-B",
-
-        okul:"IMKB Lisesi",
-
-        notOrtalaması:69.4,
-
-        olusturulmaTarihi: new Date("2026-05-03")
-
-    },
-
-    {
-
-        id:"004",
-
-        ad:"Zeynep",
-
-        soyad:"Çelik",
-
-        yas:15,
-
-        sinif:"9-C",
-
-        okul:"ÇOK Okulu",
-
-        notOrtalaması:91.7,
-
-        olusturulmaTarihi: new Date("2026-05-03")
-
-    },
-
-    {
-
-        id:"005",
-
-        ad:"Kerem",
-
-        soyad:"Aydın",
-
         yas:16,
-
-        sinif:"10-D",
-
+        sinif:"10-A",
+        okul:"Atatürk Lisesi",
+        notOrtalamasi:82.3,
+        olusturma_tarihi: new Date('2026-05-03'),
+    },
+    {
+        id:'003',
+        ad:'Mehmet',
+        soyad:"Demir",
+        yas:18,
+        sinif:"12-B",
+        okul:"Cumhuriyet Lisesi",
+        notOrtalamasi:68.9,
+        olusturma_tarihi: new Date('2026-05-03'),
+    },
+    {
+        id:'004',
+        ad:'Zeynep',
+        soyad:"Aydın",
+        yas:15,
+        sinif:"9-C",
+        okul:"Şehitler Anadolu Lisesi",
+        notOrtalamasi:90.1,
+        olusturma_tarihi: new Date('2026-05-03'),
+    },
+    {
+        id:'005',
+        ad:'Burak',
+        soyad:"Yılmaz",
+        yas:17,
+        sinif:"11-E",
         okul:"Fen Lisesi",
-
-        notOrtalaması:82.9,
-
-        olusturulmaTarihi: new Date("2026-05-03")
-
+        notOrtalamasi:77.6,
+        olusturma_tarihi: new Date('2026-05-03'),
     }
-
 ]
-    

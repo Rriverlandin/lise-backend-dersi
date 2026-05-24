@@ -1,26 +1,43 @@
-import {Request,Response,NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { ApiError } from '../utils/ApiError';
+import { env } from '../config/env.config';
 
-//route bulunamadı
-export const notFoundError = (
-    req:Request,
-    res:Response
-):void => {
-    res.status(404).json({
-        success:false,
-        error:req.method+" "+req.originalUrl+ " adresi bulunamadı",
-    });
-};
-
-
-//genel api hataları
 export const errorHandler = (
-    error:Error,
-    req:Request,
-    res:Response
-):void => {
-    console.log("hata : ",error.message);
-    res.status(500).json({
-        success:false,
-        error:"Sunucu Hatası Oluştu",
+  err: Error,
+  req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _next: NextFunction
+): void => {
+  // ApiError ise, statusCode ve detayları kullan
+  if (err instanceof ApiError) {
+    res.status(err.statusCode).json({
+      basarili: false,
+      hata: {
+        mesaj: err.message,
+        ...(err.details ? { detaylar: err.details } : {}),
+      },
     });
+    return;
+  }
+
+  // Beklenmeyen hata - production'da detayı saklıyoruz
+  console.error('💥 Beklenmeyen hata:', {
+    mesaj: err.message,
+    stack: err.stack,
+    url: req.originalUrl,
+    method: req.method,
+  });
+
+  res.status(500).json({
+    basarili: false,
+    hata: {
+      mesaj: 'Sunucu hatası oluştu',
+      // Geliştirme ortamında stack trace döneriz, production'da asla
+      ...(env.NODE_ENV === 'development' && {
+        detaylar: err.message,
+        stack: err.stack,
+      }),
+    },
+  });
 };

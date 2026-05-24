@@ -1,28 +1,33 @@
-const app : Application = express();
-import  ogrenciRoutes from "./routes/ogrenci.routes";
-import { notFoundError } from './middleware/error.middleware';
-import { errorHandler, notFoundError } from './middleware/error.middleware';
+import express, { Application } from 'express';
+import routes from './routes';
 import { logger } from './middleware/logger.middleware';
+import { errorHandler } from './middleware/error.middleware';
+import { notFoundError } from './middleware/notFound.middleware';
+const app: Application = express();
 
-app.use(express.json());
+// Built-in middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
 
-
+// Custom middleware
 app.use(logger);
 
-app.get("/health",(_req,res) => {
-    res.status(200).json({
-        success:true,
-        status:"working",
-        time: new Date().toISOString(),
-    });
+// Health check
+app.get('/health', (_req, res) => {
+  res.status(200).json({
+    basarili: true,
+    durum: 'çalışıyor',
+    zamanDamgasi: new Date().toISOString(),
+  });
 });
 
-app.use("/api/ogrenciler",ogrenciRoutes);
+// API rotaları
+app.use('/api/v1', routes);
 
-//bulunamayan route lar için
+// 404 handler (tüm route'lardan SONRA)
 app.use(notFoundError);
 
-//genel hatalar için
-app.use(errorHandler)
+// Global error handler (EN SON)
+app.use(errorHandler);
 
 export default app;

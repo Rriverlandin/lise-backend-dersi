@@ -6,7 +6,7 @@ export const logger = (
     next:NextFunction
 ):void => {
     const start = Date.now();
-    const {method, originalUrl,ip } =req;
+    const {method, originalUrl } =req;
     res.on('finish', () => {
         const duration = Date.now() - start;
         const {statusCode} = res;
