@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Öğrenci kayıtlarını yönetmek için sade ve hızlı yönetim paneli"
+    />
+    <title>Öğrenci Yönetim Paneli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="/" aria-label="Öğrenci paneli ana sayfa">
+          <span class="brand-mark">Ö</span>
+          <span>
+            <strong>Öğrenci</strong>
+            <small>Yönetim Sistemi</small>
+          </span>
+        </a>
+
+        <nav aria-label="Ana menü">
+          <a class="nav-item active" href="#ogrenciler">
+            <span class="nav-icon">◎</span> Öğrenciler
+          </a>
+          <a class="nav-item" href="/health" target="_blank">
+            <span class="nav-icon">◇</span> Sistem durumu
+          </a>
+          <a class="nav-item" href="/api/v1/ogrenciler" target="_blank">
+            <span class="nav-icon">↗</span> API çıktısı
+          </a>
+        </nav>
+
+        <div class="sidebar-status">
+          <span class="status-dot"></span>
+          <div>
+            <strong>API bağlantısı</strong>
+            <small id="api-status">Kontrol ediliyor</small>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content" id="ogrenciler">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">YÖNETİM PANELİ</p>
+            <h1>Öğrenciler</h1>
+            <p class="subtitle">Kayıtları görüntüleyin ve kolayca yönetin.</p>
+          </div>
+          <button class="primary-button" id="add-button" type="button">
+            <span>＋</span> Yeni öğrenci
+          </button>
+        </header>
+
+        <section class="stats-grid" aria-label="Öğrenci istatistikleri">
+          <article class="stat-card accent-blue">
+            <span class="stat-icon">Ö</span>
+            <div>
+              <small>Toplam öğrenci</small>
+              <strong id="total-students">—</strong>
+            </div>
+          </article>
+          <article class="stat-card accent-green">
+            <span class="stat-icon">↗</span>
+            <div>
+              <small>Genel not ortalaması</small>
+              <strong id="average-grade">—</strong>
+            </div>
+          </article>
+          <article class="stat-card accent-orange">
+            <span class="stat-icon">#</span>
+            <div>
+              <small>Listelenen sınıf</small>
+              <strong id="class-count">—</strong>
+            </div>
+          </article>
+        </section>
+
+        <section class="content-card">
+          <div class="toolbar">
+            <label class="search-box">
+              <span>⌕</span>
+              <input id="search-input" type="search" placeholder="İsim veya okul ara..." />
+            </label>
+            <label class="select-box">
+              <span>Sınıf</span>
+              <select id="class-filter">
+                <option value="">Tümü</option>
+              </select>
+            </label>
+            <button class="ghost-button" id="refresh-button" type="button">↻ Yenile</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Öğrenci</th>
+                  <th>Sınıf</th>
+                  <th>Okul</th>
+                  <th>Yaş</th>
+                  <th>Ortalama</th>
+                  <th><span class="sr-only">İşlemler</span></th>
+                </tr>
+              </thead>
+              <tbody id="student-list"></tbody>
+            </table>
+
+            <div class="state-panel" id="loading-state">
+              <span class="spinner"></span>
+              <p>Öğrenciler yükleniyor...</p>
+            </div>
+            <div class="state-panel hidden" id="empty-state">
+              <span class="empty-icon">⌁</span>
+              <h2>Henüz öğrenci yok</h2>
+              <p>İlk öğrenci kaydını ekleyerek başlayın.</p>
+              <button class="primary-button" id="empty-add-button" type="button">Yeni öğrenci ekle</button>
+            </div>
+          </div>
+
+          <footer class="table-footer">
+            <span id="result-info">Kayıtlar yükleniyor</span>
+          </footer>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="student-dialog">
+      <form id="student-form">
+        <div class="dialog-header">
+          <div>
+            <p class="eyebrow">ÖĞRENCİ KAYDI</p>
+            <h2 id="dialog-title">Yeni öğrenci</h2>
+          </div>
+          <button class="icon-button" id="close-dialog" type="button" aria-label="Kapat">×</button>
+        </div>
+
+        <input id="student-id" type="hidden" />
+        <div class="form-grid">
+          <label>
+            <span>Ad</span>
+            <input id="first-name" name="ad" minlength="2" maxlength="50" required />
+          </label>
+          <label>
+            <span>Soyad</span>
+            <input id="last-name" name="soyad" minlength="2" maxlength="50" required />
+          </label>
+          <label>
+            <span>Yaş</span>
+            <input id="age" name="yas" type="number" min="13" max="20" required />
+          </label>
+          <label>
+            <span>Sınıf</span>
+            <select id="student-class" name="sinif" required>
+              <option value="">Seçiniz</option>
+              <option>9-A</option><option>9-B</option><option>9-C</option><option>9-D</option>
+              <option>10-A</option><option>10-B</option><option>10-C</option><option>10-D</option>
+              <option>11-A</option><option>11-B</option><option>11-C</option><option>11-D</option>
+              <option>12-A</option><option>12-B</option><option>12-C</option><option>12-D</option>
+            </select>
+          </label>
+          <label class="full-width">
+            <span>Okul</span>
+            <input id="school" name="okul" minlength="2" maxlength="100" required />
+          </label>
+          <label>
+            <span>Not ortalaması</span>
+            <input id="grade" name="notOrtalamasi" type="number" min="0" max="100" step="0.01" value="0" required />
+          </label>
+          <label>
+            <span>E-posta <small>(isteğe bağlı)</small></span>
+            <input id="email" name="email" type="email" />
+          </label>
+        </div>
+
+        <p class="form-error hidden" id="form-error" role="alert"></p>
+        <div class="dialog-actions">
+          <button class="ghost-button" id="cancel-button" type="button">Vazgeç</button>
+          <button class="primary-button" id="save-button" type="submit">Kaydet</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="/app.js" defer></script>
+  </body>
+</html>

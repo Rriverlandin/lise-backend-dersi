@@ -1,20 +1,18 @@
 {
-  "name": "ogrenci-api",
+  "name": "ogrenci-api-workspace",
   "version": "1.0.0",
-  "description": "Öğrenci yönetim API'si",
-  "main": "dist/index.js",
+  "private": true,
+  "description": "Öğrenci API projesi için kök çalışma komutları",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js"
+    "dev": "npm --prefix Backend/ogrenci-api run dev",
+    "build": "npm --prefix Backend/ogrenci-api run build",
+    "typecheck": "npm --prefix Backend/ogrenci-api run typecheck",
+    "test": "npm --prefix Backend/ogrenci-api test",
+    "check": "npm --prefix Backend/ogrenci-api run check",
+    "start": "npm --prefix Backend/ogrenci-api start",
+    "db:sync-indexes": "npm --prefix Backend/ogrenci-api run db:sync-indexes"
   },
-  "dependencies": {
-    "express": "^4.21.0"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.6",
-    "@types/node": "^25.6.0",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^6.0.3"
+  "engines": {
+    "node": ">=20"
   }
 }

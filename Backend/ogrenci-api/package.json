@@ -1,0 +1,40 @@
+{
+  "name": "ogrenci-api",
+  "version": "1.0.0",
+  "description": "TypeScript, Express ve MongoDB ile geliştirilmiş öğrenci yönetim REST API'si",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "dev": "tsx watch src/index.ts",
+    "build": "npm run clean && tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test tests/*.test.js",
+    "check": "npm run typecheck && npm test",
+    "db:sync-indexes": "npm run build && node dist/scripts/sync-indexes.js",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "typescript",
+    "express",
+    "mongodb",
+    "mongoose",
+    "rest-api"
+  ],
+  "license": "ISC",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^5.2.1",
+    "mongoose": "^8.9.5",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "tsx": "^4.23.13",
+    "typescript": "^6.0.3"
+  }
+}
